@@ -1,10 +1,5 @@
 package aoc2022;
 
-import common.MultiMap;
-import common.Pair;
-
-import java.util.Map;
-
 import static aoc2022.Common.println;
 import static aoc2022.Day2.Constants.*;
 
