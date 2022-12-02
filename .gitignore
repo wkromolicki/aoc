@@ -21,3 +21,31 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.idea/
+.gradle/
+build/
+bitmap-builder.iml
+*.jar
+bitmap-builder.bat
+*.bitmaps
+*.meta
+
+# Simple Build Tool
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
+
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+.bsp/
+
+#Bitmap-Builder project
+validation/
+
+.java-version
+.DS_Store
