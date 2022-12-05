@@ -2,7 +2,7 @@ package aoc2022;
 
 import common.CollectionOps;
 import common.Common;
-import common.Common.Strings;
+import common.Common.Strings2;
 import common.Pair;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static common.CollectionOps.groupBy;
 import static common.CollectionOps.toSet;
-import static common.Common.Strings.splitInHalf;
+import static common.Common.Strings2.splitInHalf;
 import static common.Common.println;
 
 public class Day3 {
@@ -23,7 +23,7 @@ public class Day3 {
 
         println("Part1: ", sum);
 
-        var groupedBy3 = groupBy(Common.lines("aoc2022/day3.txt").stream().map(Strings::characters).collect(Collectors.toList()), 3);
+        var groupedBy3 = groupBy(Common.lines("aoc2022/day3.txt").stream().map(Strings2::characters).collect(Collectors.toList()), 3);
 
         var sumBadges = groupedBy3.stream().mapToInt(Day3::badges).sum();
         println("Part2: " + sumBadges);
@@ -31,8 +31,8 @@ public class Day3 {
     }
 
     static Set<String> commonTypes(Pair<String, String> rucksack) {
-        var left = Strings.characters(rucksack.a());
-        var right = Strings.characters(rucksack.b());
+        var left = Strings2.characters(rucksack.a());
+        var right = Strings2.characters(rucksack.b());
         return CollectionOps.intersect(toSet(left), toSet(right));
     }
 
