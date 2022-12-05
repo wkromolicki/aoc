@@ -66,6 +66,21 @@ public class CollectionOps {
     }
 
 
+    public static class Counter {
+        private int count;
+
+        public Counter(int count) {
+            this.count = count;
+        }
+
+        public boolean countDown() {
+            count = count - 1;
+            return count <= 0;
+        }
+
+
+    }
+
     public static class ResettingCounter{
         private final int count;
 

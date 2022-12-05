@@ -1,14 +1,14 @@
 package aoc2022;
 
-import common.Common;
+import common.Console2;
 
-import static common.Common.println;
+import static common.Console2.println;
 import static aoc2022.Day2.Constants.*;
 
 public class Day2 {
     public static void main(String[] args) {
         var fileName = "aoc2022/day2-2.txt";
-        var lines = Common.lines(fileName);
+        var lines = Console2.lines(fileName);
 
         var score1 = lines.stream().mapToInt(Day2::part1).sum();
 

@@ -1,8 +1,8 @@
 package aoc2022;
 
 import common.CollectionOps;
-import common.Common;
-import common.Common.Strings2;
+import common.Console2;
+import common.Strings2;
 import common.Pair;
 
 import java.util.List;
@@ -12,18 +12,18 @@ import java.util.stream.Collectors;
 
 import static common.CollectionOps.groupBy;
 import static common.CollectionOps.toSet;
-import static common.Common.Strings2.splitInHalf;
-import static common.Common.println;
+import static common.Strings2.splitInHalf;
+import static common.Console2.println;
 
 public class Day3 {
 
     public static void main(String[] args) {
 
-        var sum = Common.lines("aoc2022/day3.txt").stream().mapToInt(l -> sumPriorities(commonTypes(splitInHalf(l)), Priorities::priority)).sum();
+        var sum = Console2.lines("aoc2022/day3.txt").stream().mapToInt(l -> sumPriorities(commonTypes(splitInHalf(l)), Priorities::priority)).sum();
 
         println("Part1: ", sum);
 
-        var groupedBy3 = groupBy(Common.lines("aoc2022/day3.txt").stream().map(Strings2::characters).collect(Collectors.toList()), 3);
+        var groupedBy3 = groupBy(Console2.lines("aoc2022/day3.txt").stream().map(Strings2::characters).collect(Collectors.toList()), 3);
 
         var sumBadges = groupedBy3.stream().mapToInt(Day3::badges).sum();
         println("Part2: " + sumBadges);

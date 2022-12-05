@@ -1,17 +1,17 @@
 package aoc2022;
 
 import common.CollectionOps;
-import common.Common;
+import common.Console2;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static common.Common.println;
+import static common.Console2.println;
 
 public class Day1 {
     public static void main(String[] args) {
         var fileName = "aoc2022/day1-1.txt";
-        var lines = Common.lines(fileName);
+        var lines = Console2.lines(fileName);
 
         var calories = readCalories2(lines);
         var firstElfWasCarrying = calories.stream().findFirst().orElse(0);
