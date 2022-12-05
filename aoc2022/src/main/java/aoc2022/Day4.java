@@ -1,16 +1,16 @@
 package aoc2022;
 
 import com.google.common.collect.Range;
-import common.Common;
+import common.Console2;
 import common.Pair;
 
-import static common.Common.Strings2.splitOn;
-import static common.Common.println;
+import static common.Strings2.splitOn;
+import static common.Console2.println;
 
 public class Day4 {
 
     public static void main(String[] args) {
-        var lines = Common.lines("aoc2022/day4.txt");
+        var lines = Console2.lines("aoc2022/day4.txt");
 
         var enclosing = lines.stream().map(l -> enclose(ranges(l))).filter(p -> p).count();
 
@@ -37,10 +37,7 @@ public class Day4 {
     }
 
     public static boolean overlap(Pair<Range<Integer>, Range<Integer>> p) {
-        try {
-        return !p.a().intersection(p.b()).isEmpty();
-    } catch (Exception e){
-        return false;
-        }
+
+        return p.a().isConnected(p.b());
     }
 }

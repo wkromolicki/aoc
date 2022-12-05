@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Common {
+public class Console2 {
     public static List<String> lines(String fileName) {
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(Common.class.getClassLoader().getResourceAsStream(fileName)))) {
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(Console2.class.getClassLoader().getResourceAsStream(fileName)))) {
             return br.lines().collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -29,21 +29,5 @@ public class Common {
             default -> o.toString();
         };
     }
-
-    public static class Strings2 {
-        public static Pair<String, String> splitInHalf(String s){
-            return Pair.of(s.substring(0, s.length() / 2), s.substring(s.length() / 2 ));
-        }
-
-        public static Pair<String, String> splitOn(String s, String c){
-            return Pair.of(s.substring(0, s.indexOf(c)), s.substring(s.indexOf(c) + 1));
-        }
-
-        public static List<String> characters(String s) {
-            return s.chars().mapToObj(c -> String.valueOf((char)c)).collect(Collectors.toList());
-        }
-    }
-
-
 
 }
