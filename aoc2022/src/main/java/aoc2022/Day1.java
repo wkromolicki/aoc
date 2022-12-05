@@ -1,9 +1,12 @@
 package aoc2022;
 
+import common.CollectionOps;
+import common.Common;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static aoc2022.Common.println;
+import static common.Common.println;
 
 public class Day1 {
     public static void main(String[] args) {
@@ -44,7 +47,7 @@ public class Day1 {
 
 
     static List<Integer> readCalories2(List<String> records) {
-        var grouped = Common.Aggregation.groupWhen(records, String::isBlank);
+        var grouped = CollectionOps.groupWhen(records, String::isBlank);
 
         return grouped.stream().map(l -> l.stream().mapToInt(Integer::parseInt).sum()).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }

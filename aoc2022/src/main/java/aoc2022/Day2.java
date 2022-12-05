@@ -1,6 +1,8 @@
 package aoc2022;
 
-import static aoc2022.Common.println;
+import common.Common;
+
+import static common.Common.println;
 import static aoc2022.Day2.Constants.*;
 
 public class Day2 {
