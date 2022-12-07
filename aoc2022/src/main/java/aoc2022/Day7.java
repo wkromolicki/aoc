@@ -1,7 +1,6 @@
 package aoc2022;
 
 import common.Console2;
-import common.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,53 +12,63 @@ public class Day7 {
     public static void main(String[] args) {
         var lines = Console2.lines("aoc2022/day7.txt");
 
-        var result = solve(lines);
-        println("part1: ", result.a());
-        println("part2: ", result.b());
+        var directoriesWithSizes = readDirInfo(lines);
+
+        println("part1: ", part1(directoriesWithSizes));
+        println("part2: ", part2(directoriesWithSizes));
+
+        //part1: 1084134
+        //part2: 6183184
     }
 
-    static Pair<Integer, Integer> solve(List<String> lines) {
-        String currentDir = "";
-        Map<String, Integer> allDirs = new HashMap<>();
-
-        List<String> files = new ArrayList<>();
-        for(String l: lines) {
-            if(l.startsWith("$ cd")) {
-                String dir = l.substring("$ cd".length()).trim();
-                if(dir.startsWith("..")) {
-                    currentDir = currentDir.substring(0, currentDir.lastIndexOf("/") - 1);
-                } else if (dir.equals("/")){
-                    currentDir = "/";
-                } else {
-                    currentDir = currentDir  + dir + "/";
-                }
-            } else if (l.startsWith("$ ls")){
-                allDirs.put(currentDir, 0);
-            } else {
-                if(!l.startsWith("dir")) {
-                    String size = l.substring(0, l.indexOf(" "));
-                    String file = l.substring(l.indexOf(" ") + 1);
-                    String fileLine = currentDir + size; //add only size information
-                    files.add(fileLine);
-                }
-            }
-        }
-        //now count sizes
-        Map<String, Integer> mapWithSize = calculateDirSizes(allDirs, files);
-
+    static int part1(Map<String, Integer> directories) {
         var maxSize = 100000;
+        return directories.values().stream().filter(integer -> integer <= maxSize).mapToInt(i -> i).sum();
+    }
+
+    static int part2(Map<String, Integer> directories) {
         var maxSpace = 70000000;
         var required = 30000000;
-
-        var sizeOfDirs = mapWithSize.values().stream().filter(integer -> integer <= maxSize).mapToInt(i -> i).sum();
-
-        var occupiedSpace = mapWithSize.get("/");
-
+        var occupiedSpace = directories.get("/");
         var unusedSpace = maxSpace - occupiedSpace;
+        return directories.values().stream().filter(integer -> integer >= required - unusedSpace).sorted().findFirst().orElse(0);
+    }
+    
+    static Map<String, Integer> readDirInfo(List<String> lines) {
+        String currentDir = "";
+        Map<String, Integer> allDirs = new HashMap<>();
+        List<String> files = new ArrayList<>();
+        
+        for(String l: lines) {
+            switch (l) {
+                case String s when s.startsWith("$ cd") -> currentDir = cd(currentDir, s.substring("$ cd".length()).trim());
+                case String s when s.startsWith("$ ls") -> ls(currentDir, allDirs);
+                default -> file(currentDir, files, l);
+            }
+        }
+        return calculateDirSizes(allDirs, files);
+    }
 
-        var sizeOfDirToDelete = mapWithSize.values().stream().filter(integer -> integer >= required - unusedSpace).sorted().findFirst().orElse(0);
+    private static void file(String currentDir, List<String> files, String l) {
+        if(!l.startsWith("dir")) {
+            String size = l.substring(0, l.indexOf(" "));
+            String fileLine = currentDir + size; //add only size information
+            files.add(fileLine);
+        }
+    }
 
-        return Pair.of(sizeOfDirs, sizeOfDirToDelete);
+    private static void ls(String currentDir, Map<String, Integer> allDirs) {
+        allDirs.put(currentDir, 0);
+    }
+
+    static String cd(String current, String dir) {
+        if(dir.startsWith("..")) {
+            return current.substring(0, current.lastIndexOf("/") - 1);
+        } else if (dir.equals("/")){
+            return "/";
+        } else {
+            return current  + dir + "/";
+        }
     }
 
     static Map<String, Integer> calculateDirSizes(Map<String, Integer> allDirs, List<String> files) {
