@@ -23,8 +23,7 @@ public class Day8 {
         //part1: 1776
         //part2: 234416
     }
-
-
+    
     public static class Forest {
 
         private final List<List<Integer>> forest;
@@ -61,20 +60,37 @@ public class Day8 {
 
         boolean isVisible(int x, int y) {
             int treeHeight = get(x,y);
-            var left = treesFromTo(x, 0).map(x1 -> get(x1, y)).allMatch(h -> h < treeHeight);
-            var top = treesFromTo(y, 0).map(y1 -> get(x, y1)).allMatch(h -> h < treeHeight);
-            var right = treesFromTo(x, width -1).map(x1 -> get(x1, y)).allMatch(h -> h < treeHeight);
-            var bottom = treesFromTo(y, height -1).map(y1 -> get(x, y1)).allMatch(h -> h < treeHeight);
+            var left = leftFrom(x, y).allMatch(h -> h < treeHeight);
+            var top = topFrom(x, y).allMatch(h -> h < treeHeight);
+            var right = rightFrom(x, y).allMatch(h -> h < treeHeight);
+            var bottom = bottomFrom(x, y).allMatch(h -> h < treeHeight);
             return left || right || top || bottom;
         }
 
+
         long scenicScore(int x, int y) {
             int treeHeight = get(x,y);
-            var left = treesFromTo(x , 0).map(x1 -> get(x1, y)).takeWhile(new ViewUntil(treeHeight)).count();
-            var top = treesFromTo(y , 0).map(y1 -> get(x, y1)).takeWhile(new ViewUntil(treeHeight)).count();
-            var right = treesFromTo(x , width - 1).map(x1 -> get(x1, y)).takeWhile(new ViewUntil(treeHeight)).count();
-            var bottom = treesFromTo(y, height -1).map(y1 -> get(x, y1)).takeWhile(new ViewUntil(treeHeight)).count();
+            var left = leftFrom(x, y).takeWhile(new ViewUntil(treeHeight)).count();
+            var top = topFrom(x, y).takeWhile(new ViewUntil(treeHeight)).count();
+            var right = rightFrom(x, y).takeWhile(new ViewUntil(treeHeight)).count();
+            var bottom = bottomFrom(x, y).takeWhile(new ViewUntil(treeHeight)).count();
             return left * top * right * bottom;
+        }
+
+        private IntStream bottomFrom(int x, int y) {
+            return treesFromTo(y, height - 1).map(y1 -> get(x, y1));
+        }
+
+        private IntStream rightFrom(int x, int y) {
+            return treesFromTo(x, width - 1).map(x1 -> get(x1, y));
+        }
+
+        private IntStream topFrom(int x, int y) {
+            return treesFromTo(y, 0).map(y1 -> get(x, y1));
+        }
+
+        private IntStream leftFrom(int x, int y) {
+            return treesFromTo(x, 0).map(x1 -> get(x1, y));
         }
 
         static class ViewUntil implements IntPredicate {
